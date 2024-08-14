@@ -26,6 +26,7 @@
 #include "cvipart.h"
 #include "cvi_panels/cvi_panel_diffs.h"
 
+#undef ROOTFS_DEV
 // defined in this .h
 #undef CONFIG_BOOTCOMMAND
 
@@ -155,6 +156,7 @@
 #define CONFIG_ENV_SECT_SIZE		0x00040000
 #endif
 
+#define CONFIG_USE_DEFAULT_ENV
 #define CONFIG_ENV_OVERWRITE
 
 #define CONFIG_MMC_UHS_SUPPORT
@@ -180,6 +182,7 @@
 #define CONFIG_NETMASK			255.255.255.0
 #define CONFIG_GATEWAYIP		192.168.0.11
 #define CONFIG_SERVERIP			192.168.56.101
+#define ROOTFS_DEV				"/dev/mmcblk0p2"
 
 #ifdef CONFIG_USE_DEFAULT_ENV
 /* The following Settings are chip dependent */
@@ -197,7 +200,7 @@
 /*******************************************************************************/
 	/* Config FDT_NO */
 	#ifndef USE_HOSTCC
-		#define FDT_NO __stringify(CVICHIP) "_" __stringify(CVIBOARD)
+		#define FDT_NO "cv18xx-openwrt"
 	#else
 		#define FDT_NO ""
 	#endif
@@ -211,7 +214,7 @@
 			#define ROOTARGS "ubi.mtd=ROOTFS ubi.block=0,0"
 		#endif /* CONFIG_SKIP_RAMDISK */
 	#elif defined(CONFIG_SD_BOOT) || defined(CONFIG_EMMC_SUPPORT)
-		#define ROOTARGS "root=" ROOTFS_DEV " rootwait rw"
+		#define ROOTARGS "rootfstype=ext4 root=" ROOTFS_DEV " rootwait rw"
 	#else
 		#define ROOTARGS "rootfstype=squashfs rootwait ro root=" ROOTFS_DEV
 	#endif
