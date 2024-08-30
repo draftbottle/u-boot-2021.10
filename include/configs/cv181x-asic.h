@@ -216,7 +216,7 @@
 	#elif defined(CONFIG_SD_BOOT) || defined(CONFIG_EMMC_SUPPORT)
 		#define ROOTARGS "rootfstype=ext4 root=" ROOTFS_DEV " rootwait rw"
 	#else
-		#define ROOTARGS "rootfstype=squashfs rootwait ro root=" ROOTFS_DEV
+		#define ROOTARGS "rootfstype=ext4 rootwait rw root=" ROOTFS_DEV
 	#endif
 
 	/* BOOTARGS */
@@ -289,7 +289,7 @@
 		#define SHOWLOGOCMD
 	#endif
 
-	#define SET_BOOTARGS "setenv bootargs ${reserved_mem} ${root} ${mtdparts} " \
+	#define SET_BOOTARGS "setenv bootargs ${reserved_mem} ${root} " \
 					"console=$consoledev,$baudrate $othbootargs;"
 
 	#define SD_BOOTM_COMMAND \
@@ -304,7 +304,7 @@
 		#ifdef CONFIG_ENABLE_ALIOS_UPDATE
 			#define CONFIG_BOOTCOMMAND	"cvi_update_rtos"
 		#else
-			#define CONFIG_BOOTCOMMAND	SHOWLOGOCMD "cvi_update || run norboot || run nandboot ||run emmcboot"
+			#define CONFIG_BOOTCOMMAND	SHOWLOGOCMD "run sdboot || run norboot || run nandboot ||run emmcboot"
 		#endif
 	#else
 		#define CONFIG_BOOTCOMMAND	SHOWLOGOCMD "run sdboot"
